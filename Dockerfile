@@ -136,7 +136,7 @@ USER coder
 # Setup Conda Environment
 RUN cd /home/coder \
     && curl -LO http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && bash Miniconda3-latest-Linux-x86_64.sh -p /home/coder/miniconda -b \
+    && bash Miniconda3-latest-Linux-x86_64.sh -p /home/coder/miniconda -b -f \
     && rm Miniconda3-latest-Linux-x86_64.sh
 ENV PATH=/home/coder/miniconda/bin:${PATH}
 RUN conda update -y conda
@@ -227,10 +227,21 @@ RUN mkdir -p ${VSCODE_EXTENSIONS}/settings-sync \
 RUN mkdir -p ${VSCODE_EXTENSIONS}/plantuml \
     && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/jebbs/vsextensions/plantuml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/plantuml extension
 
+# Setup IntelliCode
+RUN mkdir -p ${VSCODE_EXTENSIONS}/intellicode \
+    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioExptTeam/vsextensions/vscodeintellicode/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/intellicode extension
+
+# Setup Better Jinja
+RUN mkdir -p ${VSCODE_EXTENSIONS}/jinjahtml \
+    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/samuelcolvin/vsextensions/jinjahtml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/jinjahtml extension
+
+# Setup DotEnv
+RUN mkdir -p ${VSCODE_EXTENSIONS}/dotenv \
+    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mikestead/vsextensions/dotenv/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/dotenv extension
+
 # Setup Todo Tree
 # RUN mkdir -p ${VSCODE_EXTENSIONS}/todo \
 #     && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Gruntfuggly/vsextensions/todo-tree/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/todo extension
-
 
 # Setup User Workspace
 RUN mkdir -p /home/coder/project
