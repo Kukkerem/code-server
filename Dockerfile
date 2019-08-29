@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     tmux \
     net-tools \
     nano \
+    openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
 # CF CLI
