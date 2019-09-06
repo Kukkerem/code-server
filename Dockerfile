@@ -184,8 +184,8 @@ RUN mkdir -p ${VSCODE_EXTENSIONS}/swagger \
     && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/42Crunch/vsextensions/vscode-openapi/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/swagger extension
 
 # Setup Settings Sync
-RUN mkdir -p ${VSCODE_EXTENSIONS}/settings-sync \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Shan/vsextensions/code-settings-sync/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/settings-sync extension
+#RUN mkdir -p ${VSCODE_EXTENSIONS}/settings-sync \
+#    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Shan/vsextensions/code-settings-sync/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/settings-sync extension
 
 # Setup PlantUML
 RUN mkdir -p ${VSCODE_EXTENSIONS}/plantuml \
@@ -202,6 +202,7 @@ RUN mkdir -p ${VSCODE_EXTENSIONS}/jinjahtml \
 # Setup DotEnv
 RUN mkdir -p ${VSCODE_EXTENSIONS}/dotenv \
     && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mikestead/vsextensions/dotenv/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/dotenv extension
+
 
 # Setup User Workspace
 RUN mkdir -p /home/coder/project
