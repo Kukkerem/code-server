@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     golang-1.12 \
     # Python SDK
     python3 \
-    python-dev \
+    python3-dev \
     python3-pip \
     # Chromium
     chromium-browser \
