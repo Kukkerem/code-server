@@ -16,7 +16,7 @@ start:
 	mkdir -p $(LOCAL_DIR)
 	mkdir -p $(WORKSPACE)
 	# docker run --name $(CONTAINER_NAME) -v /var/run/docker.sock:/var/run/docker.sock -d -p 0.0.0.0:8443:8443 -v "$(LOCAL_DIR):/home/coder/.local/share/code-server:z" -v "$(WORKSPACE):/home/coder/project:z" $(IMAGE_NAME) --allow-http --no-auth
-	docker run --name $(CONTAINER_NAME) --network=host -v $(HOME)/.ssh:/home/coder/.ssh -v /var/run/docker.sock:/var/run/docker.sock -d -p 0.0.0.0:8443:8443 -v "$(WORKSPACE):/home/coder/project:z" $(IMAGE_NAME) --allow-http --no-auth
+	docker run --name $(CONTAINER_NAME) --network=host -v $(HOME)/.ssh:/home/coder/.ssh -v /var/run/docker.sock:/var/run/docker.sock -d -p 0.0.0.0:8080:8080 -v "$(WORKSPACE):/home/coder/project:z" $(IMAGE_NAME) --allow-http --no-auth
 
 stop:
 	docker stop $(CONTAINER_NAME)

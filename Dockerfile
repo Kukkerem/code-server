@@ -13,6 +13,28 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     net-tools \
     nano \
     openssh-client \
+    # Common SDK
+    git \
+    sudo \
+    gdb \
+    pkg-config \
+    build-essential \
+    # Node SDK
+    nodejs \
+    npm \
+    # Golang SDK
+    golang-1.12 \
+    # Python SDK
+    python3 \
+    python-dev \
+    python3-pip \
+    # Chromium
+    chromium-browser \
+    # Code Server
+    bsdtar \
+    openssl \
+    locales \
+    net-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # CF CLI
@@ -37,51 +59,15 @@ RUN wget -q https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-
 RUN curl -sL "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
 
 # Azure CLI
-RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null \
-    && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/azure-cli.list \
-    && apt-get update && apt-get install --no-install-recommends -y azure-cli \
-    && rm -rf /var/lib/apt/lists/*
+#RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null \
+#    && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/azure-cli.list \
+#    && apt-get update && apt-get install --no-install-recommends -y azure-cli \
+#    && rm -rf /var/lib/apt/lists/*
 
-# Common SDK
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    git \
-    sudo \
-    gdb \
-    pkg-config \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Node SDK
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    nodejs \
-    npm \
-    && rm -rf /var/lib/apt/lists/*
-
-# Golang SDK
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    golang-1.12 \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install miniconda to /miniconda
-# RUN curl -LO http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-# RUN bash Miniconda3-latest-Linux-x86_64.sh -p /miniconda -b
-# RUN rm Miniconda-latest-Linux-x86_64.sh
-# ENV PATH=/miniconda/bin:${PATH}
-# RUN conda update -y conda
-
-# Python SDK
-# RUN apt-get update && apt-get install --no-install-recommends -y \
-#     python3 \
-#     python-dev \
-#     python3-pip \
-#     && rm -rf /var/lib/apt/lists/*
-
-# RUN python3 -m pip install --upgrade setuptools \
-#     && python3 -m pip install wheel \
-#     && python3 -m pip install -U pylint
-
-# ENV PATH=/miniconda/bin:${PATH}
-# RUN conda update -y conda
+# Python packages
+RUN python3 -m pip install --upgrade setuptools \
+    && python3 -m pip install wheel \
+    && python3 -m pip install -U pylint autopep8 flake8
 
 # Java SDK
 #RUN apt-get update && apt-get install --no-install-recommends -y \
@@ -99,11 +85,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 #    dotnet-sdk-2.2 \
 #    && rm -rf /var/lib/apt/lists/*
 
-# Chromium
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    chromium-browser \
-    && rm -rf /var/lib/apt/lists/*
-
 # Chrome
 # RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
 # RUN echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
@@ -111,36 +92,22 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 #    google-chrome-stable \
 #    && rm -rf /var/lib/apt/lists/*
 
-# Code-Server
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    bsdtar \
-    openssl \
-    locales \
-    net-tools \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 ENV DISABLE_TELEMETRY true
 
-RUN export CODE_VERSION=$(curl --silent "https://api.github.com/repos/cdr/code-server/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")') \
-    && curl -sL https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server${CODE_VERSION}-linux-x64.tar.gz | tar --strip-components=1 -zx -C /usr/local/bin code-server${CODE_VERSION}-linux-x64/code-server
+# RUN export CODE_VERSION=$(curl --silent "https://api.github.com/repos/cdr/code-server/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")') \
+#     && curl -sL https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server${CODE_VERSION}-linux-x64.tar.gz | tar --strip-components=1 -zx -C /usr/local/bin code-server${CODE_VERSION}-linux-x64/code-server
+
+RUN export CODE_VERSION=2.preview.10-vsc1.37.0 \
+    && export CODE_ARCH=linux-x86_64 \
+    && curl -sL https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server${CODE_VERSION}-${CODE_ARCH}.tar.gz | tar --strip-components=1 -zx -C /usr/local/bin code-server${CODE_VERSION}-${CODE_ARCH}/code-server
 
 # Setup User
 RUN groupadd --gid 1024 -r coder \
     && useradd -m -r coder -g coder -s /bin/bash \
     && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 USER coder
-
-
-# Setup Miniconda Environment
-# Setup Conda Environment
-RUN cd /home/coder \
-    && curl -LO http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && bash Miniconda3-latest-Linux-x86_64.sh -p /home/coder/miniconda -b -f \
-    && rm Miniconda3-latest-Linux-x86_64.sh
-ENV PATH=/home/coder/miniconda/bin:${PATH}
-RUN conda update -y conda
 
 # Setup User Go Environment
 RUN mkdir /home/coder/go
@@ -200,10 +167,6 @@ RUN mkdir -p ${VSCODE_EXTENSIONS}/browser-preview \
 RUN mkdir -p ${VSCODE_EXTENSIONS}/gitlens \
     && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/eamodio/vsextensions/gitlens/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/gitlens extension
 
-# Setup Anaconda Extension Pack
-RUN mkdir -p ${VSCODE_EXTENSIONS}/anaconda \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-python/vsextensions/anaconda-extension-pack/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/anaconda extension
-
 # Setup Ansible Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/ansible \
     && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscoss/vsextensions/vscode-ansible/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/ansible extension
@@ -240,12 +203,9 @@ RUN mkdir -p ${VSCODE_EXTENSIONS}/jinjahtml \
 RUN mkdir -p ${VSCODE_EXTENSIONS}/dotenv \
     && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mikestead/vsextensions/dotenv/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/dotenv extension
 
-# Setup Todo Tree
-# RUN mkdir -p ${VSCODE_EXTENSIONS}/todo \
-#     && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Gruntfuggly/vsextensions/todo-tree/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/todo extension
-
 # Setup User Workspace
 RUN mkdir -p /home/coder/project
+
 WORKDIR /home/coder/project
 
 ENTRYPOINT ["dumb-init", "code-server"]

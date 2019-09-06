@@ -20,5 +20,6 @@
     },
     "files.associations": {
         "*.make": "makefile"
-    }
+    },
+    "terminal.integrated.shell.linux": "/usr/bin/bash"
 }
