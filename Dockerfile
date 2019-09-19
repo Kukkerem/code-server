@@ -22,8 +22,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     # Node SDK
     nodejs \
     npm \
-    # Golang SDK
-    golang-1.12 \
     # Python SDK
     python3 \
     python3-dev \
@@ -69,6 +67,9 @@ RUN python3 -m pip install --upgrade setuptools \
     && python3 -m pip install wheel \
     && python3 -m pip install -U pylint autopep8 flake8
 
+# Golang SDK
+RUN curl -sL https://dl.google.com/go/go1.13.linux-amd64.tar.gz | tar -zx -C /usr/local
+
 # Java SDK
 #RUN apt-get update && apt-get install --no-install-recommends -y \
 #    default-jre-headless \
@@ -99,7 +100,7 @@ ENV DISABLE_TELEMETRY true
 # RUN export CODE_VERSION=$(curl --silent "https://api.github.com/repos/cdr/code-server/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")') \
 #     && curl -sL https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server${CODE_VERSION}-linux-x64.tar.gz | tar --strip-components=1 -zx -C /usr/local/bin code-server${CODE_VERSION}-linux-x64/code-server
 
-RUN export CODE_VERSION=2.preview.10-vsc1.37.0 \
+RUN export CODE_VERSION=2.1523-vsc1.38.1 \
     && export CODE_ARCH=linux-x86_64 \
     && curl -sL https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server${CODE_VERSION}-${CODE_ARCH}.tar.gz | tar --strip-components=1 -zx -C /usr/local/bin code-server${CODE_VERSION}-${CODE_ARCH}/code-server
 
@@ -110,8 +111,8 @@ RUN groupadd --gid 1024 -r coder \
 USER coder
 
 # Setup User Go Environment
-RUN mkdir /home/coder/go
-ENV GOPATH "/home/coder/go"
+# RUN mkdir /home/coder/go
+# ENV GOPATH "/home/coder/go"
 ENV PATH "${PATH}:/usr/local/go/bin:/home/coder/go/bin"
 
 # Setup Uset .NET Environment
