@@ -5,8 +5,6 @@ WORKSPACE := $$HOME/workspace
 LOCAL_IMAGE_NAME := monostream-server
 DOCKER_NAME := kukker
 REMOTE_IMAGE_NAME := $(DOCKER_NAME)/code-server
-USER_MAIL := example@gmail.com
-USER_NAME := username
 
 .PHONY: start stop delete purge restart build build_without_cache push start_remote restart_remote set_ssh set_kubectl restart_all_local restart_all_remote config
 
@@ -40,9 +38,7 @@ set_kubectl:
 	cat ~/.kube/config | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.kube/config'
 
 config:
-	docker exec $(CONTAINER_NAME) git config core.fileMode false
-	docker exec $(CONTAINER_NAME)git config --global user.email "$(USER_MAIL)"
-	docker exec $(CONTAINER_NAME)git config --global user.name "$(USER_NAME)"
+	cat ~/.gitconfig | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.gitconfig'
 
 restart_all_local: restart set_ssh set_kubectl config
 restart_all_remote: restart_remote set_ssh set_kubectl config
