@@ -37,8 +37,8 @@ set_kubectl:
 	docker exec $(CONTAINER_NAME) mkdir -p /home/coder/.kube
 	cat ~/.kube/config | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.kube/config'
 
-restart_all_local: restart set_ssh set_kubect
-restart_all_remote: restart_remote set_ssh set_kubect
+restart_all_local: restart set_ssh set_kubectl
+restart_all_remote: restart_remote set_ssh set_kubectl
 
 stop:
 	docker stop $(CONTAINER_NAME)
