@@ -61,10 +61,5 @@ push:
 start_remote: prepare
 	docker pull $(REMOTE_IMAGE_NAME)
 	docker run -d --name $(CONTAINER_NAME) --network=host -v /var/run/docker.sock:/var/run/docker.sock -v "$(WORKSPACE):/home/coder/project:z" $(REMOTE_IMAGE_NAME) --allow-http --no-auth
-	docker cp ~/.ssh/ $(CONTAINER_NAME):/home/coder/.ssh
-	docker exec $(CONTAINER_NAME) sudo chown -R coder:coder ~/.ssh
-	docker exec $(CONTAINER_NAME) mkdir -p ~/.kube
-	docker cp ~/.kube/config $(CONTAINER_NAME):/home/coder/.kube/
-
 
 restart_remote: purge start_remote
