@@ -29,9 +29,9 @@ set_ssh:
 	cat ~/.ssh/id_rsa.pub | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.ssh/id_rsa.pub'
 	cat ~/.ssh/authorized_keys | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.ssh/authorized_keys'
 	cat ~/.ssh/known_hosts | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.ssh/known_hosts'
-	docker exec $(CONTAINER_NAME) sudo chmod 0700 /home/coder/.ssh
-	docker exec $(CONTAINER_NAME) sudo chmod 0600 /home/coder/.ssh/id_rsa
-	docker exec $(CONTAINER_NAME) sudo chown -R coder:coder /home/coder/.ssh
+	docker exec $(CONTAINER_NAME) chmod 0700 /home/coder/.ssh
+	docker exec $(CONTAINER_NAME) chmod 0600 /home/coder/.ssh/id_rsa
+	docker exec $(CONTAINER_NAME) chown -R coder:coder /home/coder/.ssh
 
 set_kubectl:
 	docker exec $(CONTAINER_NAME) mkdir -p /home/coder/.kube
