@@ -41,13 +41,13 @@ restart_all_local: restart set_ssh set_kubectl
 restart_all_remote: restart_remote set_ssh set_kubectl
 
 stop:
-	docker stop $(CONTAINER_NAME)
+	docker stop $(CONTAINER_NAME) | true
 
 delete: stop
-	docker rm $(CONTAINER_NAME)
+	docker rm $(CONTAINER_NAME) | true
 
 purge: delete
-	rm -rf $(LOCAL_DIR)
+	rm -rf $(LOCAL_DIR) | true
 
 restart: purge start
 
