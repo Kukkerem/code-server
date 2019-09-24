@@ -26,11 +26,12 @@ start: prepare
 set_ssh:
 	docker exec $(CONTAINER_NAME) mkdir -p /home/coder/.ssh
 	cat ~/.ssh/id_rsa | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.ssh/id_rsa'
+	cat ~/.ssh/config | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.ssh/config' | true
 	cat ~/.ssh/id_rsa.pub | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.ssh/id_rsa.pub'
 	cat ~/.ssh/authorized_keys | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.ssh/authorized_keys'
 	cat ~/.ssh/known_hosts | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.ssh/known_hosts'
 	docker exec $(CONTAINER_NAME) chmod 0700 /home/coder/.ssh
-	docker exec $(CONTAINER_NAME) chmod 0600 /home/coder/.ssh/id_rsa
+	docker exec $(CONTAINER_NAME) chmod 0600 /home/coder/.ssh/*
 	docker exec $(CONTAINER_NAME) chown -R coder:coder /home/coder/.ssh
 
 set_kubectl:
@@ -39,6 +40,7 @@ set_kubectl:
 
 config:
 	cat ~/.gitconfig | docker exec -i $(CONTAINER_NAME) sh -c 'cat > /home/coder/.gitconfig'
+	docker exec $(CONTAINER_NAME) go get -u github.com/ramya-rao-a/go-outline
 
 restart_all_local: restart set_ssh set_kubectl config
 restart_all_remote: restart_remote set_ssh set_kubectl config
