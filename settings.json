@@ -19,7 +19,8 @@
         "**/.factorypath": true
     },
     "files.associations": {
-        "*.make": "makefile"
+        "*.make": "makefile",
+        "*.proto": "go"
     },
     "terminal.integrated.shell.linux": "/usr/bin/bash"
 }
