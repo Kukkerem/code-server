@@ -25,7 +25,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     # Python SDK
     python3 \
     python3-dev \
+    python3-setuptools \
     python3-pip \
+    python3-wheel \
+    python3-pylint-common \
     # Chromium
     chromium-browser \
     # Code Server
@@ -129,85 +132,87 @@ COPY --chown=coder:coder settings.json /home/coder/.local/share/code-server/User
 
 # Setup Go Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/go \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/Go/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/go extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/Go/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/go extension
 
 # Setup Python Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/python \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-python/vsextensions/python/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/python extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-python/vsextensions/python/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/python extension
 
 # Setup Java Extension
 #RUN mkdir -p ${VSCODE_EXTENSIONS}/java \
-#    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/redhat/vsextensions/java/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/java extension
+#    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/redhat/vsextensions/java/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/java extension
 
 #RUN mkdir -p ${VSCODE_EXTENSIONS}/java-debugger \
-#    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscjava/vsextensions/vscode-java-debug/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/java-debugger extension
+#    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscjava/vsextensions/vscode-java-debug/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/java-debugger extension
 
 #RUN mkdir -p ${VSCODE_EXTENSIONS}/java-test \
-#    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscjava/vsextensions/vscode-java-test/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/java-test extension
+#    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscjava/vsextensions/vscode-java-test/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/java-test extension
 
 #RUN mkdir -p ${VSCODE_EXTENSIONS}/maven \
-#    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscjava/vsextensions/vscode-maven/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/maven extension
+#    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscjava/vsextensions/vscode-maven/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/maven extension
 
 # Setup Kubernetes Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/yaml \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/redhat/vsextensions/vscode-yaml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/yaml extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/redhat/vsextensions/vscode-yaml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/yaml extension
 
 RUN mkdir -p ${VSCODE_EXTENSIONS}/kubernetes \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-kubernetes-tools/vsextensions/vscode-kubernetes-tools/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/kubernetes extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-kubernetes-tools/vsextensions/vscode-kubernetes-tools/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/kubernetes extension
 
 RUN helm init --client-only
 
 # Setup Browser Preview
 RUN mkdir -p ${VSCODE_EXTENSIONS}/browser-debugger \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/msjsdiag/vsextensions/debugger-for-chrome/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-debugger extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/msjsdiag/vsextensions/debugger-for-chrome/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-debugger extension
 
 RUN mkdir -p ${VSCODE_EXTENSIONS}/browser-preview \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/auchenberg/vsextensions/vscode-browser-preview/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-preview extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/auchenberg/vsextensions/vscode-browser-preview/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-preview extension
 
 # Setup GitLens
 RUN mkdir -p ${VSCODE_EXTENSIONS}/gitlens \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/eamodio/vsextensions/gitlens/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/gitlens extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/eamodio/vsextensions/gitlens/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/gitlens extension
 
 # Setup Ansible Extension
-RUN mkdir -p ${VSCODE_EXTENSIONS}/ansible \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscoss/vsextensions/vscode-ansible/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/ansible extension
+# RUN mkdir -p ${VSCODE_EXTENSIONS}/ansible \
+#     && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscoss/vsextensions/vscode-ansible/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/ansible extension
 
 # Setup Docker Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/docker \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-azuretools/vsextensions/vscode-docker/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/docker extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-azuretools/vsextensions/vscode-docker/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/docker extension
 
 # Setup Remote Development
 RUN mkdir -p ${VSCODE_EXTENSIONS}/remote \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode-remote/vsextensions/vscode-remote-extensionpack/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/remote extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode-remote/vsextensions/vscode-remote-extensionpack/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/remote extension
 
 # Setup OpenAPI (Swagger) editor
 RUN mkdir -p ${VSCODE_EXTENSIONS}/swagger \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/42Crunch/vsextensions/vscode-openapi/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/swagger extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/42Crunch/vsextensions/vscode-openapi/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/swagger extension
 
 # Setup Settings Sync
 #RUN mkdir -p ${VSCODE_EXTENSIONS}/settings-sync \
-#    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Shan/vsextensions/code-settings-sync/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/settings-sync extension
+#    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Shan/vsextensions/code-settings-sync/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/settings-sync extension
 
 # Setup PlantUML
 RUN mkdir -p ${VSCODE_EXTENSIONS}/plantuml \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/jebbs/vsextensions/plantuml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/plantuml extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/jebbs/vsextensions/plantuml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/plantuml extension
 
 # Setup IntelliCode
 RUN mkdir -p ${VSCODE_EXTENSIONS}/intellicode \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioExptTeam/vsextensions/vscodeintellicode/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/intellicode extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioExptTeam/vsextensions/vscodeintellicode/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/intellicode extension
 
 # Setup Better Jinja
 RUN mkdir -p ${VSCODE_EXTENSIONS}/jinjahtml \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/samuelcolvin/vsextensions/jinjahtml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/jinjahtml extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/samuelcolvin/vsextensions/jinjahtml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/jinjahtml extension
 
 # Setup DotEnv
 RUN mkdir -p ${VSCODE_EXTENSIONS}/dotenv \
-    && curl -JLs --retry 5 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mikestead/vsextensions/dotenv/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/dotenv extension
+    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mikestead/vsextensions/dotenv/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/dotenv extension
 
 
 # Setup User Workspace
 RUN mkdir -p /home/coder/project
 
 WORKDIR /home/coder/project
+
+EXPOSE 8080
 
 ENTRYPOINT ["dumb-init", "code-server"]
