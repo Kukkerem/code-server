@@ -132,11 +132,11 @@ COPY --chown=coder:coder settings.json /home/coder/.local/share/code-server/User
 
 # Setup Go Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/go \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/Go/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/go extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/Go/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/go extension
 
 # Setup Python Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/python \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-python/vsextensions/python/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/python extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-python/vsextensions/python/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/python extension
 
 # Setup Java Extension
 #RUN mkdir -p ${VSCODE_EXTENSIONS}/java \
@@ -153,23 +153,23 @@ RUN mkdir -p ${VSCODE_EXTENSIONS}/python \
 
 # Setup Kubernetes Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/yaml \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/redhat/vsextensions/vscode-yaml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/yaml extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/redhat/vsextensions/vscode-yaml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/yaml extension
 
 RUN mkdir -p ${VSCODE_EXTENSIONS}/kubernetes \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-kubernetes-tools/vsextensions/vscode-kubernetes-tools/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/kubernetes extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-kubernetes-tools/vsextensions/vscode-kubernetes-tools/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/kubernetes extension
 
 RUN helm init --client-only
 
 # Setup Browser Preview
 RUN mkdir -p ${VSCODE_EXTENSIONS}/browser-debugger \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/msjsdiag/vsextensions/debugger-for-chrome/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-debugger extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/msjsdiag/vsextensions/debugger-for-chrome/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-debugger extension
 
 RUN mkdir -p ${VSCODE_EXTENSIONS}/browser-preview \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/auchenberg/vsextensions/vscode-browser-preview/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-preview extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/auchenberg/vsextensions/vscode-browser-preview/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-preview extension
 
 # Setup GitLens
 RUN mkdir -p ${VSCODE_EXTENSIONS}/gitlens \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/eamodio/vsextensions/gitlens/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/gitlens extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/eamodio/vsextensions/gitlens/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/gitlens extension
 
 # Setup Ansible Extension
 # RUN mkdir -p ${VSCODE_EXTENSIONS}/ansible \
@@ -177,15 +177,15 @@ RUN mkdir -p ${VSCODE_EXTENSIONS}/gitlens \
 
 # Setup Docker Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/docker \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-azuretools/vsextensions/vscode-docker/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/docker extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-azuretools/vsextensions/vscode-docker/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/docker extension
 
 # Setup Remote Development
 RUN mkdir -p ${VSCODE_EXTENSIONS}/remote \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode-remote/vsextensions/vscode-remote-extensionpack/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/remote extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode-remote/vsextensions/vscode-remote-extensionpack/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/remote extension
 
 # Setup OpenAPI (Swagger) editor
 RUN mkdir -p ${VSCODE_EXTENSIONS}/swagger \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/42Crunch/vsextensions/vscode-openapi/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/swagger extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/42Crunch/vsextensions/vscode-openapi/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/swagger extension
 
 # Setup Settings Sync
 #RUN mkdir -p ${VSCODE_EXTENSIONS}/settings-sync \
@@ -193,19 +193,19 @@ RUN mkdir -p ${VSCODE_EXTENSIONS}/swagger \
 
 # Setup PlantUML
 RUN mkdir -p ${VSCODE_EXTENSIONS}/plantuml \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/jebbs/vsextensions/plantuml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/plantuml extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/jebbs/vsextensions/plantuml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/plantuml extension
 
 # Setup IntelliCode
 RUN mkdir -p ${VSCODE_EXTENSIONS}/intellicode \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioExptTeam/vsextensions/vscodeintellicode/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/intellicode extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioExptTeam/vsextensions/vscodeintellicode/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/intellicode extension
 
 # Setup Better Jinja
 RUN mkdir -p ${VSCODE_EXTENSIONS}/jinjahtml \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/samuelcolvin/vsextensions/jinjahtml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/jinjahtml extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/samuelcolvin/vsextensions/jinjahtml/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/jinjahtml extension
 
 # Setup DotEnv
 RUN mkdir -p ${VSCODE_EXTENSIONS}/dotenv \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mikestead/vsextensions/dotenv/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/dotenv extension
+    && curl --retry 5 --retry-delay 3 --speed-limit 2048 --speed-time 10 --retry-max-time 0 -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mikestead/vsextensions/dotenv/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/dotenv extension
 
 
 # Setup User Workspace
