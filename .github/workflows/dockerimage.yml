@@ -19,8 +19,8 @@ jobs:
         docker login docker.pkg.github.com -u publisher -p "${GITHUB_PACKAGE_REGISTRY_TOKEN}"
     - name: Tag Docker image
       run: |
-        docker tag code-server:laster docker.pkg.github.com/Kukkerem/code-server/code-server:$(date +%s)
-        docker tag code-server:laster docker.pkg.github.com/Kukkerem/code-server/code-server:${GITHUB_SHA:0:39}
+        docker tag code-server:laster docker.pkg.github.com/kukkerem/code-server/code-server:$(date +%s)
+        docker tag code-server:laster docker.pkg.github.com/kukkerem/code-server/code-server:${GITHUB_SHA:0:39}
     - name: Push Docker image
       run: |
         docker push docker.pkg.github.com/Kukkerem/code-server/code-server
@@ -28,5 +28,5 @@ jobs:
       if: github.ref == 'refs/heads/develop'
       run: |
         # we push latest separate so it shows up as latest in the UI
-        docker tag code-server:laster docker.pkg.github.com/Kukkerem/code-server/code-server:latest
-        docker push docker.pkg.github.com/Kukkerem/code-server/code-server:latest
+        docker tag code-server:laster docker.pkg.github.com/kukkerem/code-server/code-server:latest
+        docker push docker.pkg.github.com/kukkerem/code-server/code-server:latest
