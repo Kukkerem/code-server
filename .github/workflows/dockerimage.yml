@@ -10,13 +10,15 @@ jobs:
  
     steps:
     - uses: actions/checkout@master
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag code-server:latest
     - name: Login to GitHub Package Repository
       env:
         GITHUB_PACKAGE_REGISTRY_TOKEN: ${{ secrets.GITHUB_PACKAGE_REGISTRY_TOKEN }}
       run: |
         docker login docker.pkg.github.com -u publisher -p "${GITHUB_PACKAGE_REGISTRY_TOKEN}"
+    - name: Pull the Docker image
+      run: docker pull docker.pkg.github.com/kukkerem/code-server/code-server:latest
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag code-server:latest
     - name: Tag Docker image
       run: |
         docker tag code-server:latest docker.pkg.github.com/kukkerem/code-server/code-server:$(date +%s)
