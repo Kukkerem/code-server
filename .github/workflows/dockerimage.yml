@@ -23,7 +23,7 @@ jobs:
         docker tag code-server:latest docker.pkg.github.com/kukkerem/code-server/code-server:${GITHUB_SHA:0:39}
     - name: Push Docker image
       run: |
-        docker push docker.pkg.github.com/Kukkerem/code-server/code-server
+        docker push docker.pkg.github.com/kukkerem/code-server/code-server
     - name: Tag latest if develop
       if: github.ref == 'refs/heads/develop'
       run: |
