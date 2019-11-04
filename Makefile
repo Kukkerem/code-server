@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := start
+DEFAULT_GOAL := start
 CONTAINER_NAME := monostream
 LOCAL_DIR := $$HOME/.local/share/code-server
 WORKSPACE := $$HOME/workspace
@@ -21,7 +21,7 @@ prepare:
 
 start: prepare
 	# docker run --name $(CONTAINER_NAME) -v /var/run/docker.sock:/var/run/docker.sock -d -p 0.0.0.0:8443:8443 -v "$(LOCAL_DIR):/home/coder/.local/share/code-server:z" -v "$(WORKSPACE):/home/coder/project:z" $(IMAGE_NAME) --allow-http --no-auth
-	docker run -d --name $(CONTAINER_NAME) --network=host -v /var/run/docker.sock:/var/run/docker.sock -v "$(WORKSPACE):/home/coder/project:z" $(LOCAL_IMAGE_NAME) --host 0.0.0.0 --cert --security-opt seccomp=unconfined  --verbose --logs debug
+	docker run -d --name $(CONTAINER_NAME) --network=host -v /var/run/docker.sock:/var/run/docker.sock -v "$(WORKSPACE):/home/coder/project:z" $(LOCAL_IMAGE_NAME) --host 0.0.0.0 --cert --security-opt seccomp=unconfined
 
 set_ssh:
 	docker exec $(CONTAINER_NAME) mkdir -p /home/coder/.ssh
@@ -66,6 +66,6 @@ push:
 
 start_remote: prepare
 	docker pull $(REMOTE_IMAGE_NAME)
-	docker run -d --name $(CONTAINER_NAME) --network=host -v /var/run/docker.sock:/var/run/docker.sock -v "$(WORKSPACE):/home/coder/project:z" $(REMOTE_IMAGE_NAME) --host 0.0.0.0 --cert --security-opt seccomp=unconfined 
+	docker run -d --name $(CONTAINER_NAME) --network=host -v /var/run/docker.sock:/var/run/docker.sock -v "$(WORKSPACE):/home/coder/project:z" -e PASSWORD=1234 $(REMOTE_IMAGE_NAME) --host 0.0.0.0 --cert --security-opt seccomp=unconfined 
 
 restart_remote: purge start_remote
