@@ -108,8 +108,8 @@ RUN export CODE_VERSION=2.1688-vsc1.39.2 \
     && curl -sL https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server${CODE_VERSION}-${CODE_ARCH}.tar.gz | tar --strip-components=1 -zx -C /usr/local/bin code-server${CODE_VERSION}-${CODE_ARCH}/code-server
 
 # Setup User
-RUN groupadd --gid 1024 -r coder \
-    && useradd -m -r coder -g coder -s /bin/bash \
+RUN groupadd --gid 1000 -r coder \
+    && useradd -u 1000 -m -r coder -g coder -s /bin/bash \
     && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 USER coder
 
