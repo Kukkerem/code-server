@@ -12,12 +12,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/ubuntu/workspace:/home/coder/project
-    healthcheck:
-      test: ["CMD", "curl", "-f", "https://localhost:8080"]
-      interval: 5m
-      timeout: 30s
-      retries: 3
-      start_period: 1m
     networks:
       - outside
 
