@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  server:
+    image: kukker/code-server:latest
+    command: ["--host", "0.0.0.0", "--cert"]
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+    environment:
+      PASSWORD: 1234
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/ubuntu/workspace:/home/coder/project
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://localhost:8080"]
+      interval: 5m
+      timeout: 30s
+      retries: 3
+      start_period: 1m
+    networks:
+      - outside
+
+networks:
+  outside:
+    external: true
+    name: "host"

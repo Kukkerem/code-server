@@ -64,8 +64,19 @@ push:
 	docker tag $(LOCAL_IMAGE_NAME) $(REMOTE_IMAGE_NAME)
 	docker push $(REMOTE_IMAGE_NAME):latest
 
-start_remote: prepare
+pull:
 	docker pull $(REMOTE_IMAGE_NAME)
+
+start_remote: prepare pull
 	docker run -d --name $(CONTAINER_NAME) --network=host --security-opt seccomp=unconfined -v /var/run/docker.sock:/var/run/docker.sock -v "$(WORKSPACE):/home/coder/project:z" -e PASSWORD=1234 $(REMOTE_IMAGE_NAME) --host 0.0.0.0 --cert
 
 restart_remote: purge start_remote
+
+swarm_start: prepare pull
+	docker stack deploy --compose-file docker-compose.yml code-server
+
+swarm_upgrade: pull
+	docker service update --force --image $(REMOTE_IMAGE_NAME) code-server_server
+
+swarm_delete:
+	-docker stack rm code-server
