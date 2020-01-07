@@ -51,7 +51,7 @@ stop:
 	docker stop $(CONTAINER_NAME) | true
 
 delete: stop
-	docker rm $(CONTAINER_NAME) --volume | true
+	docker rm $(CONTAINER_NAME) --volumes | true
 
 purge: delete
 	rm -rf $(LOCAL_DIR) | true
