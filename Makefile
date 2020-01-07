@@ -4,7 +4,8 @@ LOCAL_DIR := $$HOME/.local/share/code-server
 WORKSPACE := $$HOME/workspace
 LOCAL_IMAGE_NAME := monostream-server
 DOCKER_NAME := kukker
-REMOTE_IMAGE_NAME := $(DOCKER_NAME)/code-server
+SERVICE_NAME := code-server
+REMOTE_IMAGE_NAME := $(DOCKER_NAME)/$(SERVICE_NAME)
 
 .PHONY: start stop delete purge restart build build_without_cache push start_remote restart_remote set_ssh set_kubectl restart_all_local restart_all_remote config
 
@@ -80,3 +81,11 @@ swarm_upgrade: pull
 
 swarm_delete:
 	-docker stack rm code-server
+
+swarm_config:
+	$(eval SWARM_CONTAINER_NAME := $(shell docker ps -q -f name=$(SERVICE_NAME)))
+	@echo $(SWARM_CONTAINER_NAME)
+
+	$(MAKE) CONTAINER_NAME=$(SWARM_CONTAINER_NAME) set_ssh
+	$(MAKE) CONTAINER_NAME=$(SWARM_CONTAINER_NAME) set_kubectl
+	$(MAKE) CONTAINER_NAME=$(SWARM_CONTAINER_NAME) config
