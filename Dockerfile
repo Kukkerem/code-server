@@ -124,6 +124,8 @@ USER coder
 # RUN mkdir /home/coder/go
 # ENV GOPATH "/home/coder/go"
 ENV PATH "${PATH}:/usr/local/go/bin:/home/coder/go/bin"
+RUN go get -u github.com/ramya-rao-a/go-outline
+RUN go get -u golang.org/x/tools/cmd/goimports
 
 # Setup Uset .NET Environment
 # ENV DOTNET_CLI_TELEMETRY_OPTOUT "true"
