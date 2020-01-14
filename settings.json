@@ -23,4 +23,9 @@
         "*.proto": "go"
     },
     "terminal.integrated.shell.linux": "/usr/bin/bash"
+    "go.formatTool": "goimports",
+    "go.autocompleteUnimportedPackages": true,
+    "go.coverOnSave": true,
+    "go.coverOnSingleTest": true,
+    "go.testOnSave": true
 }
