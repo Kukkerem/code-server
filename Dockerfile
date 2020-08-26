@@ -1,12 +1,5 @@
 FROM ubuntu:20.04
 
-# Ansible
-RUN apt-get clean && apt-get update && apt-get install --no-install-recommends -y \
-    software-properties-common && \
-    apt-add-repository --yes --update ppa:ansible/ansible && \
-    apt-get install --no-install-recommends -y ansible
-
-
 # Packages
 RUN apt-get clean && apt-get update && apt-get install --no-install-recommends -y \
     gpg \
@@ -43,6 +36,7 @@ RUN apt-get clean && apt-get update && apt-get install --no-install-recommends -
     openssl \
     locales \
     net-tools \
+    ansible \∟
     && rm -rf /var/lib/apt/lists/*
 
 # CF CLI
