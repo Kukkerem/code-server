@@ -32,7 +32,7 @@ RUN apt-get clean && apt-get update && apt-get install --no-install-recommends -
     # Chromium
     chromium-browser \
     # Code Server
-    bsdtar \
+    libarchive-tools \
     openssl \
     locales \
     net-tools \
