@@ -137,8 +137,8 @@ RUN mkdir -p ${VSCODE_USER}
 COPY --chown=coder:coder settings.json /home/coder/.local/share/code-server/User/
 
 # Setup Go Extension
-RUN mkdir -p ${VSCODE_EXTENSIONS}/go \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/Go/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/go extension
+# RUN mkdir -p ${VSCODE_EXTENSIONS}/go \
+#     && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/Go/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/go extension
 
 # Setup Python Extension
 RUN mkdir -p ${VSCODE_EXTENSIONS}/python \
