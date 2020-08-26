@@ -36,7 +36,7 @@ RUN apt-get clean && apt-get update && apt-get install --no-install-recommends -
     openssl \
     locales \
     net-tools \
-    ansible \∟
+    ansible \
     && rm -rf /var/lib/apt/lists/*
 
 # CF CLI
