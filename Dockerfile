@@ -109,7 +109,7 @@ ENV DISABLE_TELEMETRY true
 
 RUN export CODE_VERSION=3.4.1 \
     && export CODE_ARCH=linux-x86_64 \
-    && curl -sL https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server-${CODE_VERSION}-${CODE_ARCH}.tar.gz | tar --strip-components=1 -zx -C /usr/local/bin code-server${CODE_VERSION}-${VS_VERSION}-${CODE_ARCH}/code-server
+    && curl -sL https://github.com/cdr/code-server/releases/download/${CODE_VERSION}/code-server-${CODE_VERSION}-${CODE_ARCH}.tar.gz | tar --strip-components=1 -zx -C /usr/local/bin code-server-${CODE_VERSION}-${CODE_ARCH}/code-server
 
 # Setup User
 RUN groupadd --gid 1000 -r coder \
