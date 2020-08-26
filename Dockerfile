@@ -141,8 +141,8 @@ COPY --chown=coder:coder settings.json /home/coder/.local/share/code-server/User
 #     && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/Go/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/go extension
 
 # Setup Python Extension
-RUN mkdir -p ${VSCODE_EXTENSIONS}/python \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-python/vsextensions/python/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/python extension
+# RUN mkdir -p ${VSCODE_EXTENSIONS}/python \
+#     && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-python/vsextensions/python/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/python extension
 
 # Setup Java Extension
 #RUN mkdir -p ${VSCODE_EXTENSIONS}/java \
@@ -167,11 +167,11 @@ RUN mkdir -p ${VSCODE_EXTENSIONS}/kubernetes \
 RUN helm init --client-only
 
 # Setup Browser Preview
-RUN mkdir -p ${VSCODE_EXTENSIONS}/browser-debugger \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/msjsdiag/vsextensions/debugger-for-chrome/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-debugger extension
+# RUN mkdir -p ${VSCODE_EXTENSIONS}/browser-debugger \
+#     && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/msjsdiag/vsextensions/debugger-for-chrome/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-debugger extension
 
-RUN mkdir -p ${VSCODE_EXTENSIONS}/browser-preview \
-    && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/auchenberg/vsextensions/vscode-browser-preview/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-preview extension
+# RUN mkdir -p ${VSCODE_EXTENSIONS}/browser-preview \
+#     && curl -JLs https://marketplace.visualstudio.com/_apis/public/gallery/publishers/auchenberg/vsextensions/vscode-browser-preview/latest/vspackage | bsdtar --strip-components=1 -xf - -C ${VSCODE_EXTENSIONS}/browser-preview extension
 
 # Setup GitLens
 RUN mkdir -p ${VSCODE_EXTENSIONS}/gitlens \
